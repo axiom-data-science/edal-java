@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2015 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -84,7 +84,7 @@ import uk.ac.rdg.resc.edal.metadata.VariableMetadata;
  * {@link CacheConfiguration}, this is able to return {@link Dataset}s, and
  * {@link Collection}s of {@link DiscreteFeature}s given a single {@link String}
  * layer identifier.
- * 
+ *
  * It also provides a cache of {@link DiscreteFeature}s for speed.
  *
  * @author Guy Griffiths
@@ -143,23 +143,23 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
          * advantage that we will get a hard limit on the amount of memory the
          * cache consumes. The disadvantage is that the size of each object
          * needs to be calculated prior to inserting it into the cache.
-         * 
+         *
          * The maxDepth property specified the maximum number of object
          * references to count before a warning is given.
-         * 
+         *
          * Now, we are generally caching 2 things:
-         * 
+         *
          * 1) Gridded map features which will generally have 256*256 ~= 65,000
          * values, but could easily be bigger
-         * 
+         *
          * 2) Collections of point features. A year's worth of EN3 data could
          * typically contain >15,000 features, each with a number of properties
-         * 
+         *
          * These can need to count a very large number of object references.
          * However, this calculation is actually pretty quick. Setting the max
          * depth to 4,000,000 seems to suppress the vast majority of warnings,
          * and doesn't impact performance noticeably.
-         * 
+         *
          * Cache configuration specified in resources/ehcache.xml
          */
         String ehcache_file = System.getProperty(WMS_CACHE_CONFIG);
@@ -217,14 +217,14 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
     public CatalogueConfig getConfig() {
         return config;
     }
-    
+
     public void shutdown() {
         CatalogueConfig.shutdown();
     }
 
     /**
      * Configures the cache used to store features
-     * 
+     *
      * @param cacheConfig
      *            The (new) configuration to use for the cache. Must not be
      *            <code>null</code>
@@ -330,7 +330,7 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
     /**
      * Removes a dataset from the catalogue. This will also delete any config
      * information about the dataset from the config file.
-     * 
+     *
      * @param id
      *            The ID of the dataset to remove
      */
@@ -342,7 +342,7 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
     /**
      * Changes a dataset's ID. This will also change the name in the saved
      * config file.
-     * 
+     *
      * @param oldId
      *            The old ID
      * @param newId
@@ -381,12 +381,12 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
             /*
              * Sometimes this gives a NullPointerException with remote datasets
              * which are unavailable (?)
-             * 
+             *
              * It's been seen a couple of times on the issue tracker, but I've
              * been unable to reproduce it. I think it may be that the title is
              * not getting set correctly (or at all?). Perhaps this needs some
              * more robust checking in the CatalogueConfig object?
-             * 
+             *
              * Since sorting the datasets by title isn't critical, we can ignore
              * the error.
              */
@@ -447,7 +447,7 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
             return null;
         }
     }
-    
+
     public DatasetConfig getDatasetInfo(String datasetId) {
         return config.getDatasetInfo(datasetId);
     }
