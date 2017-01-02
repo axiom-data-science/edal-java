@@ -698,7 +698,6 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
            eternal="false"
            timeToIdleSeconds="1200"
            timeToLiveSeconds="1200">
-      <terracotta/>
     </defaultCache>
 
     <!--
@@ -716,7 +715,8 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
            memoryStoreEvictionPolicy="LRU"
            transactionalMode="off"
            statistics="true">
-        <persistence strategy="none"/>
+        <persistence strategy="distributed"/>
+        <terracotta clustered="true"/>
     </cache>
 
     <!--
@@ -752,11 +752,12 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
            eternal="false"
            timeToLiveSeconds="0"
            maxBytesLocalHeap="256M"
-           memoryStoreEvictionPolicy="LFU"
+           memoryStoreEvictionPolicy="LRU"
            transactionalMode="off"
            statistics="true">
         <sizeOfPolicy maxDepth="4000000"/>
-        <persistence strategy="none"/>
+        <persistence strategy="distributed"/>
+        <terracotta clustered="true"/>
     </cache>
 
     <!--
@@ -767,10 +768,12 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
            maxEntriesLocalHeap="50"
            eternal="true"
            timeToLiveSeconds="0"
-           memoryStoreEvictionPolicy="LFU"
+           memoryStoreEvictionPolicy="LRU"
            transactionalMode="off"
            statistics="true">
         <sizeOfPolicy maxDepth="4000000"/>
-        <persistence strategy="none"/>
+        <persistence strategy="distributed"/>
+        <terracotta clustered="true"/>
     </cache>
+    <terracottaConfig url="localhost:9510"/> 
 </ehcache>

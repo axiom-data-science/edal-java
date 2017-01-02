@@ -702,6 +702,10 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
     </defaultCache>
 
     <!--
+    Sample caches. Following are some example caches. Remove these before use.
+    -->
+
+    <!--
     ncWMS Cache: dynamicDatasetCache
     - Previously defined in uk
     -->
@@ -743,15 +747,11 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
          *
          */
     - Can be dynamically updated via ncWMS admin interface
-    - Configuration precedence
-        - 1) admin panel
-        - 2) ehcache.xml (this document)
-        - 3) defaults hardcoded in uk.ac.rdg.resc.edal.catalogue.DataCatalogue.java
     -->
     <cache name="featureCache"
-           eternal="true"
+           eternal="false"
            timeToLiveSeconds="0"
-           maxBytesLocalHeap="512M"
+           maxBytesLocalHeap="256M"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off"
            statistics="true">
@@ -759,33 +759,18 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
         <persistence strategy="none"/>
     </cache>
 
-   <!--
-    cache: domainMapperCache
-    - Default defined/derived in uk.ac.rdg.resc.edal.dataset.Domain2DMapper
-    - Cache datasets that are mapped to different domains
-    -->
-    <cache name="domainMapperCache"
-           eternal="true"
-           timeToLiveSeconds="0"
-           maxEntriesLocalHeap="100"
-           memoryStoreEvictionPolicy="LFU"
-           transactionalMode="off"
-           statistics="true">
-        <persistence strategy="none"/>
-    </cache>
-
-   <!--
-    cache: meshDatasetCache
-    - Default defined/derived in uk.ac.rdg.resc.edal.dataset.HorizontalMesh4dDataset
-    - Cache unstructured grids
+    <!--
+    EDAL Cache: meshDatasetCache
+    - Previously defined in uk.ac.rdg.resc.edal.HorizontalMesh4dDataset
     -->
     <cache name="meshDatasetCache"
+           maxEntriesLocalHeap="50"
            eternal="true"
            timeToLiveSeconds="0"
-           maxEntriesLocalHeap="50"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off"
            statistics="true">
+        <sizeOfPolicy maxDepth="4000000"/>
         <persistence strategy="none"/>
     </cache>
 </ehcache>
