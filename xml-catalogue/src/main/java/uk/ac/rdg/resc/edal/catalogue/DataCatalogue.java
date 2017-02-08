@@ -54,6 +54,7 @@ import net.sf.ehcache.config.MemoryUnit;
 import net.sf.ehcache.config.PersistenceConfiguration;
 import net.sf.ehcache.config.PersistenceConfiguration.Strategy;
 import net.sf.ehcache.config.SizeOfPolicyConfiguration;
+import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 import net.sf.ehcache.management.ManagementService;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
@@ -244,6 +245,7 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
                         / (1024 * 1024)
                 && configLifetimeSeconds == featureCache.getCacheConfiguration()
                         .getTimeToLiveSeconds()) {
+
             /*
              * We are not changing anything about the cache.
              */
@@ -298,6 +300,41 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
                 /*
                  * Admin
                  */
+                if (cacheConfig.getInMemorySizeMB() != 0) {
+                    cacheSizeMB = configCacheSizeMB;
+                }
+                if (cacheConfig.getElementLifetimeMinutes() != 0) {
+                    lifetimeSeconds = configLifetimeSeconds;
+                }
+
+                /*
+                 * - Precedence:
+                 *  - Admin config
+                 *  - XML file "ehcache.config"
+                 *  - Default values
+                 */
+
+                // Default values
+                cacheSizeMB = CACHE_SIZE;
+                lifetimeSeconds = LIFETIME_SECONDS;
+                memoryStoreEviction = EVICTION_POLICY;
+                persistenceStrategy = PERSISTENCE_STRATEGY;
+                transactionalMode = TRANSACTIONAL_MODE;
+
+                // XML config
+                String ehcache_file = System.getProperty("ehcache.config");
+                if (ehcache_file != null && !ehcache_file.isEmpty())
+                {
+                    CacheManager tmpCacheManager = CacheManager.create(System.getProperty("ehcache.config"));
+                    Cache tmpfeatureCache = cacheManager.getCache(CACHE_NAME);
+                    cacheSizeMB = tmpfeatureCache.getCacheConfiguration().getMaxBytesLocalHeap() / (1024 * 1024);
+                    lifetimeSeconds = tmpfeatureCache.getCacheConfiguration().getTimeToLiveSeconds();
+                    memoryStoreEviction = tmpfeatureCache.getCacheConfiguration().getMemoryStoreEvictionPolicy();
+                    persistenceStrategy = tmpfeatureCache.getCacheConfiguration().getPersistenceConfiguration().getStrategy();
+                    transactionalMode = tmpfeatureCache.getCacheConfiguration().getTransactionalMode();
+                }
+
+                // Admin
                 if (cacheConfig.getInMemorySizeMB() != 0) {
                     cacheSizeMB = configCacheSizeMB;
                 }
