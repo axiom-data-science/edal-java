@@ -702,10 +702,6 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
     </defaultCache>
 
     <!--
-    Sample caches. Following are some example caches. Remove these before use.
-    -->
-
-    <!--
     ncWMS Cache: dynamicDatasetCache
     - Previously defined in uk
     -->
@@ -747,9 +743,13 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
          *
          */
     - Can be dynamically updated via ncWMS admin interface
+    - Configuration precedence
+        - 1) admin panel
+        - 2) ehcache.xml (this document)
+        - 3) defaults hardcoded in uk.ac.rdg.resc.edal.catalogue.DataCatalogue.java
     -->
     <cache name="featureCache"
-           eternal="false"
+           eternal="true"
            timeToLiveSeconds="0"
            maxBytesLocalHeap="1024M"
            memoryStoreEvictionPolicy="LFU"
@@ -780,14 +780,12 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
     - Cache unstructured grids
     -->
     <cache name="meshDatasetCache"
-           maxEntriesLocalHeap="50"
            eternal="true"
            timeToLiveSeconds="0"
            maxHeapEntries="50"
            memoryStoreEvictionPolicy="LFU"
            transactionalMode="off"
            statistics="true">
-        <sizeOfPolicy maxDepth="4000000"/>
         <persistence strategy="none"/>
     </cache>
 </ehcache>

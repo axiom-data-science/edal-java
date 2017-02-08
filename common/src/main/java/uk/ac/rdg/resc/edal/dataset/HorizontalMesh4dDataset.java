@@ -37,6 +37,9 @@ import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import javax.management.MBeanServer;
 
+import java.lang.management.ManagementFactory;
+import javax.management.MBeanServer;
+
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
