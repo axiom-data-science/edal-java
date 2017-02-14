@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2012 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -37,7 +37,7 @@ import java.io.Serializable;
 /**
  * Immutable implementation of a {@link RegularAxis}, whose values are regularly
  * spaced along the axis.
- * 
+ *
  * @author Jon
  * @author Guy Griffiths
  */
@@ -65,7 +65,7 @@ public final class RegularAxisImpl extends AbstractReferenceableAxis<Double> imp
     public boolean wraps() {
         return this.isLongitude;
     }
-    
+
     private void init(double firstValue, double spacing, int size) {
         if (size <= 0) {
             throw new IllegalArgumentException("Axis length must not be negative or zero");
@@ -116,7 +116,7 @@ public final class RegularAxisImpl extends AbstractReferenceableAxis<Double> imp
             return Extents.newExtent(centre + 0.5 * spacing, centre - 0.5 * spacing);
         }
     }
-    
+
     @Override
     public Extent<Double> getCoordinateExtent() {
         if(size() == 1) {
@@ -157,11 +157,11 @@ public final class RegularAxisImpl extends AbstractReferenceableAxis<Double> imp
         /*
          * The purpose of this method is to find the index of a position even if
          * it is outside the axis bounds.
-         * 
+         *
          * findIndexOf uses the getNextEquivalentLongitude using the lower
          * extent of this axis because it is reasonably quick and anything lower
          * than that will be outside the axis bounds.
-         * 
+         *
          * Here we need to get the nearest equivalent longitude to the centre of
          * the axis, because we don't want to exclude positions which are
          * outside the axis.

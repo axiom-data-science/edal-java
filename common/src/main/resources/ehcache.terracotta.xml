@@ -61,7 +61,7 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
          updateCheck="true" monitoring="autodetect"
-         dynamicConfig="true" name="EDAL-WMS-CacheManager">
+         dynamicConfig="true" name="EDAL-CacheManager">
 
     <!--
     DiskStore configuration
@@ -715,8 +715,8 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
            memoryStoreEvictionPolicy="LRU"
            transactionalMode="off"
            statistics="true">
-        <persistence strategy="distributed"/>
-        <terracotta clustered="true"/>
+        <persistence strategy="none"/>
+        <terracotta clustered="false"/>
     </cache>
 
     <!--
@@ -751,13 +751,13 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
     <cache name="featureCache"
            eternal="false"
            timeToLiveSeconds="0"
-           maxBytesLocalHeap="256M"
+           maxBytesLocalHeap="512M"
            memoryStoreEvictionPolicy="LRU"
            transactionalMode="off"
            statistics="true">
+        <persistence strategy="none"/>
+        <terracotta clustered="false"/>
         <sizeOfPolicy maxDepth="4000000"/>
-        <persistence strategy="distributed"/>
-        <terracotta clustered="true"/>
     </cache>
 
     <!--
@@ -765,15 +765,16 @@ Here is an example of CacheManager level resource tuning, which will use up to 4
     - Previously defined in uk.ac.rdg.resc.edal.HorizontalMesh4dDataset
     -->
     <cache name="meshDatasetCache"
-           maxEntriesLocalHeap="50"
+           maxEntriesLocalHeap="100"
            eternal="true"
            timeToLiveSeconds="0"
            memoryStoreEvictionPolicy="LRU"
            transactionalMode="off"
            statistics="true">
-        <sizeOfPolicy maxDepth="4000000"/>
         <persistence strategy="distributed"/>
         <terracotta clustered="true"/>
+        <sizeOfPolicy maxDepth="4000000"/>
     </cache>
+
     <terracottaConfig url="localhost:9510"/> 
 </ehcache>

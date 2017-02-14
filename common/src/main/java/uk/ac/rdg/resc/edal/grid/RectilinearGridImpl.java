@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2012 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -42,7 +42,7 @@ import java.io.Serializable;
 
 /**
  * Immutable implementation of a {@link RectilinearGrid} using {@link Double}s.
- * 
+ *
  * @author Guy Griffiths
  */
 public class RectilinearGridImpl extends AbstractHorizontalGrid implements RectilinearGrid, Serializable {
@@ -62,7 +62,7 @@ public class RectilinearGridImpl extends AbstractHorizontalGrid implements Recti
 
     /**
      * Instantiates a new rectilinear grid from the given axes
-     * 
+     *
      * @param xAxis
      *            the x-axis
      * @param yAxis

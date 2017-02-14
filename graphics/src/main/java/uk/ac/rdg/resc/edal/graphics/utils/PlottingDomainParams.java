@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -62,7 +62,7 @@ public class PlottingDomainParams implements Serializable {
         return new PlottingDomainParams(width, height, bbox, null, null, null, targetZ, targetT);
     }
 
-    public PlottingDomainParams(int width, int height, BoundingBox bbox, Extent<Double> zExtent,
+    public PlottingDomainParams (int width, int height, BoundingBox bbox, Extent<Double> zExtent,
             Extent<DateTime> tExtent, HorizontalPosition targetPos, Double targetZ, DateTime targetT) {
         super();
         this.width = width;

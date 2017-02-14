@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -45,7 +45,7 @@ import uk.ac.rdg.resc.edal.domain.VerticalDomain;
 /**
  * Describes a variable held within a {@link Dataset}. Variables can be
  * hierarchically nested.
- * 
+ *
  * @author Guy Griffiths
  * @author Jon Blower
  */
@@ -80,7 +80,7 @@ public class VariableMetadata implements Serializable {
      * when {@link Dataset} is created it will set itself using the
      * {@link VariableMetadata#setDataset(Dataset)} method
      * </p>
-     * 
+     *
      * @param parameter
      *            The {@link Parameter} which the variable is measuring - the ID
      *            is used as the variable ID and must be unique amongst its
@@ -107,7 +107,7 @@ public class VariableMetadata implements Serializable {
      * when {@link Dataset} is created it will set itself using the
      * {@link VariableMetadata#setDataset(Dataset)} method
      * </p>
-     * 
+     *
      * @param parameter
      *            The {@link Parameter} which the variable is measuring - the ID
      *            is used as the variable ID and must be unique amongst its
@@ -139,7 +139,7 @@ public class VariableMetadata implements Serializable {
 
     /**
      * Recursively set the dataset for this {@link VariableMetadata}
-     * 
+     *
      * @param dataset
      */
     public void setDataset(Dataset dataset) {
@@ -211,7 +211,7 @@ public class VariableMetadata implements Serializable {
     /**
      * Sets the parent-child relationship of this {@link VariableMetadata} and
      * another one.
-     * 
+     *
      * @param parent
      *            The parent {@link VariableMetadata} object
      * @param relationshipToParent
@@ -276,7 +276,7 @@ public class VariableMetadata implements Serializable {
 
     /**
      * Returns all child {@link VariableMetadata} with the designated role
-     * 
+     *
      * @param role
      *            The role to search for
      * @return The child {@link VariableMetadata} which has this role, or

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -51,7 +51,7 @@ import uk.ac.rdg.resc.edal.util.GISUtils;
 
 /**
  * An unstructured mesh in the horizontal plane.
- * 
+ *
  * @author Guy Griffiths
  */
 public class HorizontalMesh implements DiscreteHorizontalDomain<HorizontalCell>, Serializable {
@@ -64,7 +64,7 @@ public class HorizontalMesh implements DiscreteHorizontalDomain<HorizontalCell>,
 
     /**
      * Create a new {@link HorizontalMesh}
-     * 
+     *
      * @param positions
      *            A {@link List} of {@link HorizontalPosition}s which make up
      *            the vertices of this mesh
@@ -85,7 +85,7 @@ public class HorizontalMesh implements DiscreteHorizontalDomain<HorizontalCell>,
 
         /*
          * Calculate the boundary of the grid.
-         * 
+         *
          * Generate a list of edges and how many times they appear in the grid.
          * By treating 2 edges as equal if they contain the same 2 vertices, we
          * ensure that edges which only appear once are the boundary of the
@@ -121,11 +121,11 @@ public class HorizontalMesh implements DiscreteHorizontalDomain<HorizontalCell>,
         /*
          * We can now construct the boundaries of the mesh. There will be
          * multiple boundaries if:
-         * 
+         *
          * We have separate distinct areas in the mesh
-         * 
+         *
          * We have cut-outs of the mesh (possibly with other meshes inside...)
-         * 
+         *
          * We first construct a list of boundaries and then process them to get
          * a list of NestedBoundarys which can be used to determine whether a
          * point is truly within the mesh.
@@ -225,7 +225,7 @@ public class HorizontalMesh implements DiscreteHorizontalDomain<HorizontalCell>,
     /**
      * Remove child {@link NestedBoundary}s which also occur further down the
      * tree. Calls itself recursively.
-     * 
+     *
      * @param bound
      *            The {@link NestedBoundary} to start checking at.
      */
@@ -255,7 +255,7 @@ public class HorizontalMesh implements DiscreteHorizontalDomain<HorizontalCell>,
     /**
      * Finds whether a {@link Polygon} is entirely contained within another
      * {@link Polygon}
-     * 
+     *
      * @param container
      *            The {@link Polygon} to test as a container
      * @param candidate
@@ -307,11 +307,11 @@ public class HorizontalMesh implements DiscreteHorizontalDomain<HorizontalCell>,
         /*
          * We can now construct the boundaries of the mesh. There will be
          * multiple boundaries if:
-         * 
+         *
          * We have separate distinct areas in the mesh
-         * 
+         *
          * We have cut-outs of the mesh (possibly with other meshes inside...)
-         * 
+         *
          * We first construct a list of boundaries and then process them to get
          * a list of NestedBoundarys which can be used to determine whether a
          * point is truly within the mesh.
@@ -409,7 +409,7 @@ public class HorizontalMesh implements DiscreteHorizontalDomain<HorizontalCell>,
 //        /*
 //         * The set of boundaries seem to use slightly different values for
 //         * coincident edges in the test data I had.
-//         * 
+//         *
 //         * This means that there is no way to calculate the actual boundary of
 //         * the data.
 //         */
@@ -509,7 +509,7 @@ public class HorizontalMesh implements DiscreteHorizontalDomain<HorizontalCell>,
 
     /**
      * Finds the index of the closest mesh vertex to the supplied position
-     * 
+     *
      * @param position
      *            The {@link HorizontalPosition} to test
      * @return The index in the original position list, or -1 if the supplied
@@ -561,7 +561,7 @@ public class HorizontalMesh implements DiscreteHorizontalDomain<HorizontalCell>,
                 /*
                  * Position is not in the nearest neighbour cell bounds, or any
                  * of the nearby cells...
-                 * 
+                 *
                  * This is unlikely to happen, but could be the case if there
                  * are gaps between cells.
                  */
@@ -586,7 +586,7 @@ public class HorizontalMesh implements DiscreteHorizontalDomain<HorizontalCell>,
 //        }
 //        return index;
     }
-    
+
     @Override
     public int hashCode() {
         final int prime = 31;

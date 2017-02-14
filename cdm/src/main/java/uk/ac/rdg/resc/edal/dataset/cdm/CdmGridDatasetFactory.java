@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -98,17 +98,18 @@ import uk.ac.rdg.resc.edal.util.cdm.CdmUtils;
 /**
  * {@link DatasetFactory} that creates {@link Dataset}s representing gridded
  * data read through the Unidata Common Data Model.
- * 
+ *
  * Although multiple instances of this {@link DatasetFactory} can be created,
  * all share a common cache of NetcdfDataset objects to speed up operations
  * where the same dataset is accessed multiple times. To avoid excess file
  * handles being open, this is a LRU cache which closes the datasets when they
  * expire.
- * 
+ *
  * @author Guy Griffiths
  * @author Jon Blower
  */
-public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializable {
+
+public final class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializable {
     private static final Logger log = LoggerFactory.getLogger(CdmGridDatasetFactory.class);
     private static final String UNSTAGGERED_SUFFIX = ":face";
     private static final long serialVersionUID = 1L;
@@ -179,7 +180,7 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
             String id, String location, NetcdfDataset nc) throws IOException {
         /*
          * Get the metadata for the non-staggered variables (if there are any).
-         * 
+         *
          * This uses the NetCDF-Java libs to extract the grids. This approach
          * cannot be used for staggered grids - we essentially need to build the
          * grids up ourselves from scratch. The rest of this method does that.
@@ -191,11 +192,11 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
             /*
              * The most likely cause here is that we don't have any "grids" (in
              * the Unidata CDM sense) in the dataset.
-             * 
+             *
              * This means that all of the data variables are defined on grids
              * which are staggered. That's a bit weird, but it's not actually a
              * problem.
-             * 
+             *
              * If the DataReadingException was caused by something else, then
              * we'll hit problems further down anyway.
              */
@@ -206,14 +207,14 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
 
         /*
          * First loop through all variables to find:
-         * 
+         *
          * Definitions of the staggered grids. In the (vast?) majority of cases,
          * there will only be one of these.
-         * 
+         *
          * Coordinate variables which describe vertical and time axes
-         * 
+         *
          * Coordinate variables which describe horizontal axes
-         * 
+         *
          * Which variables are non-data variables and can be ignored when adding
          * variables to the dataset later. (i.e. all of the above things)
          */
@@ -290,10 +291,10 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
             /*
              * Now process the grid topologies, checking for the required
              * attributes:
-             * 
+             *
              * cf_role, topology_dimension, node_dimensions, and face_dimensions
              * are required.
-             * 
+             *
              * We only support 2D grids
              */
             Attribute nodeDimsAttr = gridTopology.findAttribute("node_dimensions");
@@ -521,7 +522,7 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
 
         /*
          * Now create the variable metadata for the staggered data variables
-         * 
+         *
          * Often, these staggered variables will not be part of a GridDataset,
          * and so we won't be able to generate the RangesList for them in the
          * CdmGridDataSource. Therefore, here we manually create RangesList
@@ -635,13 +636,13 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
                 /*
                  * Now create another version of this variable which will be
                  * interpolated onto the original unstaggered parent grid.
-                 * 
+                 *
                  * Note that for vectors, these variables will appear AFTER the
                  * original ones in the list. That means that they when
                  * processed as vectors, they will overwrite the original
                  * (staggered) variables for vectors (since they share the same
                  * standard names).
-                 * 
+                 *
                  * This is the desired behaviour.
                  */
                 Parameter p = getParameter(var);
@@ -816,7 +817,7 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
 
         /*
          * Find out if we have a fill value for the face node connectivity.
-         * 
+         *
          * If so, we can have a variable number of edges per face
          */
         Integer fillValue = null;
@@ -957,7 +958,7 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
                  * We can now generate the positions of all of the faces from
                  * faceLongitudeVar and faceLatitudeVar. However, we also want
                  * to know the cell bounds for each face.
-                 * 
+                 *
                  * We can get this from the combination of the face connectivity
                  * and the node locations
                  */
@@ -1028,7 +1029,7 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
         List<CoordinateAxis> coordinateAxes = nc.getCoordinateAxes();
         /*
          * Now find the vertical co-ordinate
-         * 
+         *
          * This is a coordinate variable and will either have units of pressure,
          * or the attribute "positive"
          */
@@ -1066,7 +1067,7 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
                      * z-dimension + a horizontal dimension we have a vertical
                      * axis where the actual depths depend on the horizontal
                      * position.
-                     * 
+                     *
                      * This doesn't fit nicely into our data model, but we can
                      * model it with a 1D vertical axis with units "level".
                      */
@@ -1173,7 +1174,7 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
     /**
      * Looks inside a NetCDF dataset to determine whether it follows the UGRID
      * conventions.
-     * 
+     *
      * @param nc
      *            The dataset
      * @return <code>true</code> if this is a UGRID dataset
@@ -1200,7 +1201,7 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
     /**
      * Looks inside a NetCDF dataset to determine whether it follows the SGRID
      * conventions.
-     * 
+     *
      * @param nc
      *            The dataset
      * @return <code>true</code> if this is a SGRID dataset
@@ -1289,7 +1290,7 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
                      * same object, we can get a
                      * ConcurrentModificationException, so we synchronise this
                      * action to avoid the issue.
-                     * 
+                     *
                      * Since we are dealing with an SGRID dataset, we have
                      * explicitly defined which index corresponds to which axis
                      * for the staggered variables
@@ -1452,14 +1453,13 @@ public class CdmGridDatasetFactory extends CdmDatasetFactory implements Serializ
         }
     }
 
-    private final class CdmUgridDataset extends HorizontalMesh4dDataset implements Serializable {
-        private static final long serialVersionUID = 1L;
+    private static final class CdmUgridDataset extends HorizontalMesh4dDataset implements Serializable {
         private final String location;
         private final Map<String, int[]> varId2hztIndices;
 
         /**
          * Construct a new {@link CdmUgridDataset}
-         * 
+         *
          * @param id
          *            The ID of the {@link CdmUgridDataset}
          * @param location

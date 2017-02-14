@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -47,7 +47,7 @@ import java.io.Serializable;
 
 /**
  * Implementation of a {@link MapDomain}
- * 
+ *
  * @author Guy
  */
 public class MapDomain implements RectilinearGrid, Serializable {
@@ -61,7 +61,7 @@ public class MapDomain implements RectilinearGrid, Serializable {
     /**
      * Instantiates a {@link MapDomain} based on a {@link RegularGrid} and z/t
      * values, with no specified vertical CRS.
-     * 
+     *
      * @param bbox
      *            The {@link BoundingBox} of the {@link MapDomain}
      * @param width
@@ -84,7 +84,7 @@ public class MapDomain implements RectilinearGrid, Serializable {
      * Instantiates a {@link MapDomain} from a {@link RectilinearGrid} and z/t
      * values, with no specified vertical CRS. Used in cases where
      * {@link VerticalCrs} is not important
-     * 
+     *
      * @param hGrid
      *            The {@link RectilinearGrid} forming the {@link MapDomain}
      * @param z
@@ -102,7 +102,7 @@ public class MapDomain implements RectilinearGrid, Serializable {
     /**
      * Instantiates a {@link MapDomain} from a {@link RectilinearGrid} and z/t
      * values
-     * 
+     *
      * @param hGrid
      *            The {@link RectilinearGrid} forming the {@link MapDomain}
      * @param z

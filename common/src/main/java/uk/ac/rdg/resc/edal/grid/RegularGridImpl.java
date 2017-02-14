@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2012 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -38,7 +38,7 @@ import java.io.Serializable;
 
 /**
  * Immutable implementation of a {@link RegularGrid}.
- * 
+ *
  * @author Guy
  * @author Jon
  */
@@ -55,13 +55,13 @@ public class RegularGridImpl extends RectilinearGridImpl implements RegularGrid,
      * width and height. Note that the bounding box represents the edges of the
      * grid, whereas grid coordinates represent the centre of the grid points.
      * </p>
-     * 
+     *
      * <p>
      * The coordinate reference system of the returned grid will be taken from
      * the CRS of the bounding box. If this is null, the names of the axes will
      * be set to "Unknown X axis" and "Unknown Y axis".
      * </p>
-     * 
+     *
      * @param bbox
      *            The bounding box of the grid
      * @param width
@@ -78,7 +78,7 @@ public class RegularGridImpl extends RectilinearGridImpl implements RegularGrid,
      * Constructs a RegularGrid from the given bounding box, with the given
      * width and height. Note that the bounding box represents the edges of the
      * grid, whereas grid coordinates represent the centre of the grid points.
-     * 
+     *
      * @param bbox
      *            the bounding box, in the form: [minx, miny, maxx, maxy]
      * @param crs
@@ -96,7 +96,7 @@ public class RegularGridImpl extends RectilinearGridImpl implements RegularGrid,
      * Constructs a RegularGrid from the given bounding box, with the given
      * width and height. Note that the bounding box represents the edges of the
      * grid, whereas grid coordinates represent the centre of the grid points.
-     * 
+     *
      * @param minx
      *            the minimum x value of the bounding box
      * @param miny
@@ -138,7 +138,7 @@ public class RegularGridImpl extends RectilinearGridImpl implements RegularGrid,
             /*
              * If we do have a crs, we can use rangeMeaning==WRAPAROUND to
              * determine whether the axis is longitude
-             * 
+             *
              * TODO There may be wrapped axes where this is inappropriate.
              * Perhaps change isLongitude to wraps in RegularAxisImpl, and set a
              * wrap value?

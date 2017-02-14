@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2015 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -37,9 +37,6 @@ import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import javax.management.MBeanServer;
 
-import java.lang.management.ManagementFactory;
-import javax.management.MBeanServer;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -49,7 +46,6 @@ import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.config.PersistenceConfiguration;
 import net.sf.ehcache.config.PersistenceConfiguration.Strategy;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
-import net.sf.ehcache.management.ManagementService;
 import uk.ac.rdg.resc.edal.dataset.HZTDataSource.MeshCoordinates3D;
 import uk.ac.rdg.resc.edal.exceptions.DataReadingException;
 import uk.ac.rdg.resc.edal.exceptions.VariableNotFoundException;
@@ -76,7 +72,10 @@ import uk.ac.rdg.resc.edal.util.ValuesArray2D;
  */
 public abstract class HorizontalMesh4dDataset extends
         DiscreteLayeredDataset<HZTDataSource, HorizontalMesh4dVariableMetadata> implements Serializable {
+<<<<<<< HEAD
     private static final long serialVersionUID = 1L;
+=======
+>>>>>>> Add serialization required for terracotta
 
     public HorizontalMesh4dDataset(String id, Collection<HorizontalMesh4dVariableMetadata> vars) {
         super(id, vars);
@@ -87,7 +86,7 @@ public abstract class HorizontalMesh4dDataset extends
         /*
          * Whilst feature reading is not yet supported, getFeatureType needs to
          * return a class for the WMS classes (in edal-wms) to work correctly.
-         * 
+         *
          * TODO Ideally we should create a new HorizontalMesh4dFeature type
          * which shares a parent with GridFeature, and have the WMS check for
          * that parent feature type. Until feature reading is implemented this
@@ -102,6 +101,10 @@ public abstract class HorizontalMesh4dDataset extends
         throw new UnsupportedOperationException("Feature reading is not yet supported");
     }
 
+<<<<<<< HEAD
+=======
+//    @SuppressWarnings("unchecked")
+>>>>>>> Add serialization required for terracotta
     @Override
     protected Array2D<Number> extractHorizontalData(HorizontalMesh4dVariableMetadata metadata,
             int tIndex, int zIndex, HorizontalGrid targetGrid, HZTDataSource dataSource)

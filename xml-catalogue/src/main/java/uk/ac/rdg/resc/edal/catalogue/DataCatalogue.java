@@ -516,11 +516,9 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
                 /*
                  * This is why we added the SuppressWarnings("unchecked").
                  */
-                mapFeatures = (Collection<? extends DiscreteFeature<?, ?>>) element
-                        .getObjectValue();
+                mapFeatures = (Collection<? extends DiscreteFeature<?, ?>>) element.getObjectValue();
             } else {
                 mapFeatures = doExtraction(layerName, variable, params);
-                featureCache.put(new Element(key, mapFeatures));
             }
         } else {
             mapFeatures = doExtraction(layerName, variable, params);
@@ -539,7 +537,10 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
     }
 
     private static class CacheKey implements Serializable {
+<<<<<<< HEAD
         private static final long serialVersionUID = 1L;
+=======
+>>>>>>> Add serialization required for terracotta
         final String id;
         final PlottingDomainParams params;
 
