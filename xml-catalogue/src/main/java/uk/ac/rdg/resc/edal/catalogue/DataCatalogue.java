@@ -550,7 +550,6 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
                 mapFeatures = (Collection<? extends DiscreteFeature<?, ?>>) element.getObjectValue();
             } else {
                 mapFeatures = doExtraction(layerName, variable, params);
-                featureCache.put(new Element(key, mapFeatures));
             }
         } else {
             mapFeatures = doExtraction(layerName, variable, params);

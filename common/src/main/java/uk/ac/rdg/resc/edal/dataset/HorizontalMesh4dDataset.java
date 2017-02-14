@@ -72,10 +72,7 @@ import uk.ac.rdg.resc.edal.util.ValuesArray2D;
  */
 public abstract class HorizontalMesh4dDataset extends
         DiscreteLayeredDataset<HZTDataSource, HorizontalMesh4dVariableMetadata> implements Serializable {
-<<<<<<< HEAD
     private static final long serialVersionUID = 1L;
-=======
->>>>>>> Add serialization required for terracotta
 
     public HorizontalMesh4dDataset(String id, Collection<HorizontalMesh4dVariableMetadata> vars) {
         super(id, vars);
@@ -102,6 +99,10 @@ public abstract class HorizontalMesh4dDataset extends
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+//    @SuppressWarnings("unchecked")
+>>>>>>> Add serialization required for terracotta
 =======
 //    @SuppressWarnings("unchecked")
 >>>>>>> Add serialization required for terracotta
