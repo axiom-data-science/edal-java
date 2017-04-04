@@ -45,43 +45,79 @@ import uk.ac.rdg.resc.edal.graphics.utils.FeatureCatalogue;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CacheInfo {
-    @XmlAttribute(name = "enabled")
-    private boolean enabled = false;
-    @XmlElement(name = "inMemorySizeMB")
-    private int inMemorySizeMB = 256;
-    @XmlElement(name = "elementLifetimeMinutes")
-    private float elementLifetimeMinutes = 0;
+    @XmlAttribute(name = "featureCacheEnabled")
+    private boolean featureCacheEnabled = false;
+    @XmlElement(name = "featureCacheInMemorySizeMB")
+    private int featureCacheInMemorySizeMB = 256;
+    @XmlElement(name = "featureCacheElementLifetimeMinutes")
+    private float featureCacheElementLifetimeMinutes = 0;
+
+    // Only expose enabling and disabling cache via web interface, the rest is via ehcache.config
+    @XmlAttribute(name = "datasetCacheEnabled")
+    private boolean datasetCacheEnabled = false;
+    @XmlElement(name = "datasetCacheInMemorySizeMB")
+    private int datasetCacheInMemorySizeMB = 256;
+    @XmlElement(name = "datasetCacheElementLifetimeMinutes")
+    private float datasetCacheElementLifetimeMinutes = 0;
 
     public CacheInfo() {
     }
 
-    public CacheInfo(boolean enabled, int inMemorySizeMB, float elementLifetimeMinutes) {
-        this.enabled = enabled;
-        this.inMemorySizeMB = inMemorySizeMB;
-        this.elementLifetimeMinutes = elementLifetimeMinutes;
+    public CacheInfo(boolean featureCacheEnabled,  int featureCacheInMemorySizeMB, float FeatureCacheElementLifetimeMinutes,
+                     boolean datasetCacheEnable,  int datasetInMemorySizeMB, float datasetCacheElementLifetimeMinutes){
+        this.featureCacheEnabled = featureCacheEnabled;
+        this.featureCacheInMemorySizeMB = featureCacheInMemorySizeMB;
+        this.featureCacheElementLifetimeMinutes = featureCacheElementLifetimeMinutes;
+        this.datasetCacheEnabled = datasetCacheEnabled;
+        this.datasetCacheInMemorySizeMB = featureCacheInMemorySizeMB;
+        this.datasetCacheElementLifetimeMinutes = datasetCacheElementLifetimeMinutes;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public boolean isFeatureCacheEnabled() {
+        return featureCacheEnabled;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setFeatureCacheEnabled(boolean enabled) {
+        featureCacheEnabled = enabled;
     }
 
-    public int getInMemorySizeMB() {
-        return inMemorySizeMB;
+    public int getFeatureCacheInMemorySizeMB() {
+        return featureCacheInMemorySizeMB;
     }
 
-    public void setInMemorySizeMB(int inMemorySizeMB) {
-        this.inMemorySizeMB = inMemorySizeMB;
+    public int getDatasetCacheInMemorySizeMB() {
+        return datasetCacheInMemorySizeMB;
     }
 
-    public void setElementLifetimeMinutes(float elementLifetimeMinutes) {
-        this.elementLifetimeMinutes = elementLifetimeMinutes;
+    public void setDatasetCacheInMemorySizeMB(int datasetCacheInMemorySizeMB) {
+        this.datasetCacheInMemorySizeMB = datasetCacheInMemorySizeMB;
     }
 
-    public float getElementLifetimeMinutes() {
-        return elementLifetimeMinutes;
+    public void setFeatureCacheInMemorySizeMB(int featureCacheInMemorySizeMB) {
+        this.featureCacheInMemorySizeMB = featureCacheInMemorySizeMB;
+    }
+
+    public void setFeatureCacheElementLifetimeMinutes(float featureCacheElementLifetimeMinutes) {
+        this.featureCacheElementLifetimeMinutes = featureCacheElementLifetimeMinutes;
+    }
+
+    public void setDatasetCacheElementLifetimeMinutes(float elementLifetimeMinutes) {
+        this.datasetCacheElementLifetimeMinutes = datasetCacheElementLifetimeMinutes;
+    }
+
+    public float getFeatureCacheElementLifetimeMinutes() {
+        return featureCacheElementLifetimeMinutes;
+    }
+
+    public float getDatasetCacheElementLifetimeMinutes() {
+        return datasetCacheElementLifetimeMinutes;
+    }
+
+    public boolean isDatasetCacheEnabled() {
+        return datasetCacheEnabled;
+    }
+
+    public void setDatasetCacheEnabled(boolean enabled) {
+        datasetCacheEnabled = enabled;
     }
 }

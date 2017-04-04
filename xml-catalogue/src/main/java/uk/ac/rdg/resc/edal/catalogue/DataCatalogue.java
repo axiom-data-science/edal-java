@@ -93,26 +93,39 @@ import uk.ac.rdg.resc.edal.metadata.VariableMetadata;
 public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureCatalogue {
     private static final Logger log = LoggerFactory.getLogger(DataCatalogue.class);
 
-    private static final String WMS_CACHE_CONFIG = "ehcache.config";
-    private static final String CACHE_NAME = "featureCache";
-    private static final String CACHE_MANAGER = "EDAL-CacheManager";
-    private static final int CACHE_SIZE = 512;
-    private static final int LIFETIME_SECONDS = 0;
-    private static final int MAX_CACHE_DEPTH = 4_000_000;
-    final MemoryStoreEvictionPolicy EVICTION_POLICY = MemoryStoreEvictionPolicy.LFU;
-    private static final Strategy PERSISTENCE_STRATEGY = Strategy.NONE;
-    private static final TransactionalMode TRANSACTIONAL_MODE = TransactionalMode.OFF;
-
-    private boolean cachingEnabled = true;
+    // Ehcache related
     protected static CacheManager cacheManager;
+    private static MBeanServer mBeanServer;
+    private static final String WMS_CACHE_CONFIG = "ehcache.config";
+    private static final String CACHE_MANAGER = "EDAL-CacheManager";
+
+    // featureCache
+    private static final String FEATURE_CACHE = "featureCache";
+    private static final int FC_SIZE = 512;
+    private static final int FC_LIFETIME_SECONDS = 0;
+    private static final int FC_MAX_CACHE_DEPTH = 4_000_000;
+    final MemoryStoreEvictionPolicy FC_EVICTION_POLICY = MemoryStoreEvictionPolicy.LFU;
+    private static final Strategy FC_PERSISTENCE_STRATEGY = Strategy.NONE;
+    private static final TransactionalMode FC_TRANSACTIONAL_MODE = TransactionalMode.OFF;
     private Cache featureCache = null;
     private static MBeanServer mBeanServer;
     private static ObjectName cacheManagerObjectName;
+    private boolean featureCacheEnabled = true;
+
+    // datasetCache
+    private static final String DS_CACHE = "datasetCache";
+    private static final int DS_SIZE = 512;
+    private static final int DS_LIFETIME_SECONDS = 0;
+    private static final int DS_MAX_CACHE_DEPTH = 4_000_000;
+    final MemoryStoreEvictionPolicy DS_EVICTION_POLICY = MemoryStoreEvictionPolicy.LFU;
+    private static final Strategy DS_PERSISTENCE_STRATEGY = Strategy.NONE;
+    private static final TransactionalMode DS_TRANSACTIONAL_MODE = TransactionalMode.OFF;
+    private Cache datasetCache = null;
+    private boolean datasetCacheEnabled = true;
 
     protected final CatalogueConfig config;
     protected Map<String, Dataset> datasets;
     private final Map<DatasetVariableId, EnhancedVariableMetadata> layerMetadata;
-
     protected final LayerNameMapper layerNameMapper;
 
     private DateTime lastUpdateTime = new DateTime();
@@ -166,37 +179,62 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
         String ehcache_file = System.getProperty(WMS_CACHE_CONFIG);
         if (ehcache_file != null && !ehcache_file.isEmpty()) {
             cacheManager = CacheManager.create(System.getProperty(WMS_CACHE_CONFIG));
-        } else {
+        }
+        else {
+            int maxCacheDepth = (FC_MAX_CACHE_DEPTH > DS_MAX_CACHE_DEPTH) ? FC_MAX_CACHE_DEPTH : DS_MAX_CACHE_DEPTH;
             cacheManager = CacheManager.create(new Configuration().name(CACHE_MANAGER)
-                    .sizeOfPolicy(new SizeOfPolicyConfiguration().maxDepth(MAX_CACHE_DEPTH)));
+                    .sizeOfPolicy(new SizeOfPolicyConfiguration().maxDepth(maxCacheDepth)));
         }
 
-        if (cacheManager.cacheExists(CACHE_NAME) == false) {
-            /*
-             * Configure cache
-             */
-            CacheConfiguration cacheConfig = new CacheConfiguration(CACHE_NAME, 0).eternal(true)
-                    .maxBytesLocalHeap(CACHE_SIZE, MemoryUnit.MEGABYTES)
-                    .memoryStoreEvictionPolicy(EVICTION_POLICY)
-                    .persistence(new PersistenceConfiguration().strategy(PERSISTENCE_STRATEGY))
-                    .transactionalMode(TRANSACTIONAL_MODE);
-
+        if (cacheManager.cacheExists(FEATURE_CACHE) == false) {
+             /*
+              * Configure featureCache
+              */
+            CacheConfiguration cacheConfig = new CacheConfiguration(FEATURE_CACHE, 0)
+                    .eternal(true)
+                    .maxBytesLocalHeap(FC_SIZE, MemoryUnit.MEGABYTES)
+                    .memoryStoreEvictionPolicy(FC_EVICTION_POLICY)
+                    .persistence(new PersistenceConfiguration().strategy(FC_PERSISTENCE_STRATEGY))
+                    .transactionalMode(FC_TRANSACTIONAL_MODE);
             featureCache = new Cache(cacheConfig);
             cacheManager.addCache(featureCache);
         } else {
             /*
-             * Use parameters for featureCache from ehcache.xml config file if
-             * passed in as JVM parameter wmsCache.config - Update cache params
-             * in NwcmsConfig
+             * Use parameters for featureCache from ehcache.xml config file if passed in as JVM parameter ehcache.config
+             * - Update cache params in NwcmsConfig
              */
-            featureCache = cacheManager.getCache(CACHE_NAME);
+            featureCache = cacheManager.getCache(FEATURE_CACHE);
             CacheInfo catalogueCacheInfo = config.getCacheSettings();
             CacheConfiguration featureCacheConfiguration = featureCache.getCacheConfiguration();
-            catalogueCacheInfo.setInMemorySizeMB((int) (featureCacheConfiguration
-                    .getMaxBytesLocalHeap() / (1024 * 1024)));
-            catalogueCacheInfo.setElementLifetimeMinutes(featureCacheConfiguration
-                    .getTimeToLiveSeconds() / 60);
-            catalogueCacheInfo.setEnabled(true);
+            catalogueCacheInfo.setFeatureCacheInMemorySizeMB((int) (featureCacheConfiguration.getMaxBytesLocalHeap() / (1024 * 1024)));
+            catalogueCacheInfo.setFeatureCacheElementLifetimeMinutes(featureCacheConfiguration.getTimeToLiveSeconds() / 60);
+            catalogueCacheInfo.setFeatureCacheEnabled(true);
+        }
+
+        if (cacheManager.cacheExists(DS_CACHE) == false) {
+             /*
+              * Configure datasetCache
+              */
+            CacheConfiguration cacheConfig = new CacheConfiguration(DS_CACHE, 0)
+                    .eternal(true)
+                    .maxBytesLocalHeap(DS_SIZE, MemoryUnit.MEGABYTES)
+                    .memoryStoreEvictionPolicy(DS_EVICTION_POLICY)
+                    .persistence(new PersistenceConfiguration().strategy(DS_PERSISTENCE_STRATEGY))
+                    .transactionalMode(DS_TRANSACTIONAL_MODE);
+
+            datasetCache = new Cache(cacheConfig);
+            cacheManager.addCache(datasetCache);
+        } else {
+            /*
+             * Use parameters for featureCache from ehcache.xml config file if passed in as JVM parameter ehcache.config
+             * - Update cache params in NwcmsConfig
+             */
+            datasetCache = cacheManager.getCache(DS_CACHE);
+            CacheInfo catalogueCacheInfo = config.getCacheSettings();
+            CacheConfiguration datasetCacheConfiguration = datasetCache.getCacheConfiguration();
+            catalogueCacheInfo.setDatasetCacheInMemorySizeMB((int) (datasetCacheConfiguration.getMaxBytesLocalHeap() / (1024 * 1024)));
+            catalogueCacheInfo.setDatasetCacheElementLifetimeMinutes(datasetCacheConfiguration.getTimeToLiveSeconds() / 60);
+            catalogueCacheInfo.setDatasetCacheEnabled(true);
         }
 
         /*
@@ -229,39 +267,67 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
      * @param cacheConfig
      *            The (new) configuration to use for the cache. Must not be
      *            <code>null</code>
-     */
-    public void setCache(CacheInfo cacheConfig) {
+     * @param cacheName
+     *           The name of the cache to be configured
+      */
+    public void setCache(CacheInfo cacheConfig, String cacheName)  {
         MemoryStoreEvictionPolicy memoryStoreEviction;
         Strategy persistenceStrategy;
         TransactionalMode transactionalMode;
-        long cacheSizeMB;
-        long configCacheSizeMB = cacheConfig.getInMemorySizeMB();
         long lifetimeSeconds;
-        long configLifetimeSeconds = (long) (cacheConfig.getElementLifetimeMinutes() * 60);
+        long configLifetimeSeconds;
+        long cacheSizeMB;
+        long configCacheSizeMB;
+        Cache cache;
+        boolean cacheCurrentlyEnabled;
+        boolean requestCacheEnabled;
 
-        if (featureCache != null
-                && cachingEnabled == cacheConfig.isEnabled()
-                && configCacheSizeMB == featureCache.getCacheConfiguration().getMaxBytesLocalHeap()
-                        / (1024 * 1024)
-                && configLifetimeSeconds == featureCache.getCacheConfiguration()
-                        .getTimeToLiveSeconds()) {
+        if (cacheName.equals(FEATURE_CACHE)) {
+            cache = featureCache;
+            // Default values
+            cacheSizeMB = FC_SIZE;
+            lifetimeSeconds = FC_LIFETIME_SECONDS;
+            memoryStoreEviction = FC_EVICTION_POLICY;
+            persistenceStrategy = FC_PERSISTENCE_STRATEGY;
+            transactionalMode = FC_TRANSACTIONAL_MODE;
+            cacheCurrentlyEnabled = cacheConfig.isFeatureCacheEnabled();
+            requestCacheEnabled = featureCacheEnabled;
+            configLifetimeSeconds = (long) (cacheConfig.getFeatureCacheElementLifetimeMinutes() * 60);
+            configCacheSizeMB = cacheConfig.getFeatureCacheInMemorySizeMB();
+        } else if (cacheName.equals(DS_CACHE)) {
+            cache = datasetCache;
+            // Default values
+            cacheSizeMB = DS_SIZE;
+            lifetimeSeconds = DS_LIFETIME_SECONDS;
+            memoryStoreEviction = DS_EVICTION_POLICY;
+            persistenceStrategy = DS_PERSISTENCE_STRATEGY;
+            transactionalMode = DS_TRANSACTIONAL_MODE;
+            cacheCurrentlyEnabled = cacheConfig.isDatasetCacheEnabled();
+            requestCacheEnabled = datasetCacheEnabled;
+            configLifetimeSeconds = (long) (cacheConfig.getDatasetCacheElementLifetimeMinutes() * 60);
+            configCacheSizeMB = cacheConfig.getDatasetCacheInMemorySizeMB();
+        } else {
+            throw new EdalException("No cache named:" + cacheName);
+        }
 
+        if (cache != null &&
+            cacheCurrentlyEnabled == requestCacheEnabled &&
+            configCacheSizeMB == cache.getCacheConfiguration().getMaxBytesLocalHeap() / (1024 * 1024) &&
+            configLifetimeSeconds == cache.getCacheConfiguration().getTimeToLiveSeconds()) {
             /*
              * We are not changing anything about the cache.
              */
             return;
         }
 
-        cachingEnabled = cacheConfig.isEnabled();
-
-        if (cachingEnabled) {
-            if (cacheManager.cacheExists(CACHE_NAME)) {
+        if (cacheCurrentlyEnabled) {
+            if (cacheManager.cacheExists(cacheName)) {
                 /*
-                 * Update cache configuration
-                 */
-                CacheConfiguration featureCacheConfig = featureCache.getCacheConfiguration();
-                featureCacheConfig.setTimeToLiveSeconds(configLifetimeSeconds);
-                featureCacheConfig.setMaxBytesLocalHeap((long) configCacheSizeMB * 1024 * 1024);
+                * Update cache configuration
+                */
+                CacheConfiguration config = cache.getCacheConfiguration();
+                config.setTimeToLiveSeconds(configLifetimeSeconds);
+                config.setMaxBytesLocalHeap((long) configCacheSizeMB * 1024 * 1024);
             } else {
                 /*-
                  * Precedence:
@@ -314,52 +380,54 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
                  *  - Default values
                  */
 
-                // Default values
-                cacheSizeMB = CACHE_SIZE;
-                lifetimeSeconds = LIFETIME_SECONDS;
-                memoryStoreEviction = EVICTION_POLICY;
-                persistenceStrategy = PERSISTENCE_STRATEGY;
-                transactionalMode = TRANSACTIONAL_MODE;
-
                 // XML config
                 String ehcache_file = System.getProperty("ehcache.config");
-                if (ehcache_file != null && !ehcache_file.isEmpty())
-                {
+                if (ehcache_file != null && !ehcache_file.isEmpty()) {
                     CacheManager tmpCacheManager = CacheManager.create(System.getProperty("ehcache.config"));
-                    Cache tmpfeatureCache = cacheManager.getCache(CACHE_NAME);
-                    cacheSizeMB = tmpfeatureCache.getCacheConfiguration().getMaxBytesLocalHeap() / (1024 * 1024);
-                    lifetimeSeconds = tmpfeatureCache.getCacheConfiguration().getTimeToLiveSeconds();
-                    memoryStoreEviction = tmpfeatureCache.getCacheConfiguration().getMemoryStoreEvictionPolicy();
-                    persistenceStrategy = tmpfeatureCache.getCacheConfiguration().getPersistenceConfiguration().getStrategy();
-                    transactionalMode = tmpfeatureCache.getCacheConfiguration().getTransactionalMode();
+                    Cache tmpCache = cacheManager.getCache(cacheName);
+                    cacheSizeMB = tmpCache.getCacheConfiguration().getMaxBytesLocalHeap() / (1024 * 1024);
+                    lifetimeSeconds = tmpCache.getCacheConfiguration().getTimeToLiveSeconds();
+                    memoryStoreEviction = tmpCache.getCacheConfiguration().getMemoryStoreEvictionPolicy();
+                    persistenceStrategy = tmpCache.getCacheConfiguration().getPersistenceConfiguration().getStrategy();
+                    transactionalMode = tmpCache.getCacheConfiguration().getTransactionalMode();
                 }
 
                 // Admin
-                if (cacheConfig.getInMemorySizeMB() != 0) {
-                    cacheSizeMB = configCacheSizeMB;
-                }
-                if (cacheConfig.getElementLifetimeMinutes() != 0) {
-                    lifetimeSeconds = configLifetimeSeconds;
+                if (cacheName.equals(FEATURE_CACHE)) {
+                    if (cacheConfig.getFeatureCacheInMemorySizeMB() != 0) {
+                        cacheSizeMB = configCacheSizeMB;
+                    }
+                    if (cacheConfig.getFeatureCacheElementLifetimeMinutes() != 0) {
+                        lifetimeSeconds = configLifetimeSeconds;
+                    }
+                } else {
+                    if (cacheConfig.getDatasetCacheInMemorySizeMB() != 0) {
+                        cacheSizeMB = configCacheSizeMB;
+                    }
+                    if (cacheConfig.getDatasetCacheElementLifetimeMinutes() != 0) {
+                        lifetimeSeconds = configLifetimeSeconds;
+                    }
                 }
 
                 /*
                  * Configure and create cache
                  */
-                CacheConfiguration config = new CacheConfiguration(CACHE_NAME, 0)
+                CacheConfiguration config = new CacheConfiguration(cacheName, 0)
                         .eternal(lifetimeSeconds == 0)
                         .maxBytesLocalHeap(cacheSizeMB, MemoryUnit.MEGABYTES)
                         .timeToLiveSeconds(lifetimeSeconds)
                         .memoryStoreEvictionPolicy(memoryStoreEviction)
                         .persistence(new PersistenceConfiguration().strategy(persistenceStrategy))
                         .transactionalMode(transactionalMode);
-                featureCache = new Cache(config);
-                cacheManager.addCache(featureCache);
+
+                cache = new Cache(config);
+                cacheManager.addCache(cache);
             }
         } else {
             /*
-             * Remove existing cache to free up memory
+             * Free up memory if not using cache
              */
-            cacheManager.removeCache(CACHE_NAME);
+            cacheManager.removeCache(cacheName);
         }
     }
 
@@ -389,6 +457,11 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
         datasets.remove(oldId);
         datasets.put(newId, dataset);
         config.changeDatasetId(config.getDatasetInfo(oldId), newId);
+
+        if (datasetCacheEnabled) {
+            datasetCache.remove(oldId);
+            datasetCache.put(new Element(newId, dataset));
+        }
     }
 
     @Override
@@ -508,7 +581,7 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
             throws EdalException {
         String variable = layerNameMapper.getVariableIdFromLayerName(layerName);
         Collection<? extends DiscreteFeature<?, ?>> mapFeatures;
-        if (cachingEnabled) {
+        if (featureCacheEnabled) {
             CacheKey key = new CacheKey(layerName, params);
             Element element = featureCache.get(key);
 
@@ -519,6 +592,7 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
                 mapFeatures = (Collection<? extends DiscreteFeature<?, ?>>) element.getObjectValue();
             } else {
                 mapFeatures = doExtraction(layerName, variable, params);
+                featureCache.put(new Element(key, mapFeatures));
             }
         } else {
             mapFeatures = doExtraction(layerName, variable, params);
@@ -528,7 +602,20 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
 
     private Collection<? extends DiscreteFeature<?, ?>> doExtraction(String layerName,
             String variable, PlottingDomainParams params) {
-        Dataset dataset = getDatasetFromLayerName(layerName);
+        Dataset dataset;
+        String datasetId = layerNameMapper.getDatasetIdFromLayerName(layerName);
+        if (datasetCacheEnabled) {
+            Element element = datasetCache.get(datasetId);
+
+            if (element != null && element.getObjectValue() != null) {
+                dataset = (Dataset) element.getObjectValue();
+            } else {
+                dataset = getDatasetFromLayerName(layerName);
+                datasetCache.put(new Element(datasetId, dataset));
+            }
+        } else {
+            dataset = getDatasetFromLayerName(layerName);
+        }
         return GraphicsUtils.extractGeneralMapFeatures(dataset, variable, params);
     }
 
@@ -537,10 +624,7 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
     }
 
     private static class CacheKey implements Serializable {
-<<<<<<< HEAD
         private static final long serialVersionUID = 1L;
-=======
->>>>>>> Add serialization required for terracotta
         final String id;
         final PlottingDomainParams params;
 
