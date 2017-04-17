@@ -28,6 +28,7 @@
 
 package uk.ac.rdg.resc.edal.metadata;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import uk.ac.rdg.resc.edal.dataset.Dataset;
@@ -40,7 +41,7 @@ import uk.ac.rdg.resc.edal.feature.Feature;
  * @author Jon
  * @author Guy Griffiths
  */
-public class Parameter {
+public class Parameter implements Serializable {
     public static class Category {
         private final String id;
         private final String label;

@@ -28,7 +28,9 @@
 
 package uk.ac.rdg.resc.edal.grid.kdtree;
 
-public class NonTerminalTreeNode implements TreeNode {
+import java.io.Serializable;
+
+public class NonTerminalTreeNode implements TreeNode, Serializable {
 	private double discriminator;
 	private boolean isY;
 	

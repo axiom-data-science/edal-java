@@ -1,5 +1,6 @@
 package uk.ac.rdg.resc.edal.grid.kdtree;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -20,7 +21,7 @@ import uk.ac.rdg.resc.edal.util.GISUtils;
  * @author Guy Griffiths
  * @author Paul Karaenke
  */
-public class KDTree {
+public class KDTree implements Serializable {
     private static final Logger log = LoggerFactory.getLogger(KDTree.class);
 
     private List<HorizontalPosition> points;

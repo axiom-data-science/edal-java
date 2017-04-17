@@ -29,12 +29,14 @@
 package uk.ac.rdg.resc.edal.grid;
 
 
+import java.io.Serializable;
+
 /**
  * A {@link HorizontalGrid} which has a staggered relationship to another grid.
  *
  * @author Guy Griffiths
  */
-public interface StaggeredHorizontalGrid extends HorizontalGrid {
+public interface StaggeredHorizontalGrid extends HorizontalGrid, Serializable {
 
     /**
      * A staggered grid will consist of cells which are defined as being between

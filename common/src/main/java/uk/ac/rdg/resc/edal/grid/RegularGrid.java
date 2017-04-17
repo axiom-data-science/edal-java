@@ -28,13 +28,15 @@
 
 package uk.ac.rdg.resc.edal.grid;
 
+import java.io.Serializable;
+
 /**
  * A two-dimensional grid whose coordinate values are equally-spaced along each
  * axis, and whose axes in real space are aligned with the axes in grid space.
  * 
  * @author Jon Blower
  */
-public interface RegularGrid extends RectilinearGrid {
+public interface RegularGrid extends RectilinearGrid, Serializable {
 
     /**
      * {@inheritDoc}

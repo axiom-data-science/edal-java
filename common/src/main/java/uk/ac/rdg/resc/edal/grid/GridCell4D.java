@@ -39,13 +39,15 @@ import uk.ac.rdg.resc.edal.position.GeoPosition;
 import uk.ac.rdg.resc.edal.position.HorizontalPosition;
 import uk.ac.rdg.resc.edal.position.VerticalCrs;
 
+import java.io.Serializable;
+
 /**
  * A cell in a {@link GridDomain}, which can have up to four dimensions.
  * 
  * @author Jon Blower
  * @author Guy Griffiths
  */
-public interface GridCell4D extends Domain<GeoPosition> {
+public interface GridCell4D extends Domain<GeoPosition>, Serializable {
     /**
      * @return the centre of the grid cell in horizontal space
      */

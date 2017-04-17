@@ -745,7 +745,7 @@ public class HorizontalMesh implements DiscreteHorizontalDomain<HorizontalCell>,
         }
     }
 
-    private static class NestedBoundary {
+    private static class NestedBoundary implements Serializable {
         private Polygon boundary;
         private List<NestedBoundary> childBounds = new ArrayList<>();
 

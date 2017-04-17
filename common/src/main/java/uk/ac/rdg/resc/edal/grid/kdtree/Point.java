@@ -28,7 +28,9 @@
 
 package uk.ac.rdg.resc.edal.grid.kdtree;
 
-public class Point implements TreeNode {
+import java.io.Serializable;
+
+public class Point implements TreeNode, Serializable {
     private double x, y;
     private int index;
 

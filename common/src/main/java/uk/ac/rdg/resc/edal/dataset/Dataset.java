@@ -28,6 +28,7 @@
 
 package uk.ac.rdg.resc.edal.dataset;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -57,7 +58,7 @@ import uk.ac.rdg.resc.edal.position.HorizontalPosition;
  * @author Guy Griffiths
  * @author Jon Blower
  */
-public interface Dataset {
+public interface Dataset extends Serializable {
 
     /**
      * @return The ID which identifies this dataset.

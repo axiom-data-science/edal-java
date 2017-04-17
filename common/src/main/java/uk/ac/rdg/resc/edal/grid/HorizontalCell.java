@@ -33,12 +33,14 @@ import uk.ac.rdg.resc.edal.domain.Domain;
 import uk.ac.rdg.resc.edal.geometry.Polygon;
 import uk.ac.rdg.resc.edal.position.HorizontalPosition;
 
+import java.io.Serializable;
+
 /**
  * A cell in a horizontal {@link Domain}.
  * 
  * @author Guy Griffiths
  */
-public interface HorizontalCell extends Domain<HorizontalPosition> {
+public interface HorizontalCell extends Domain<HorizontalPosition>, Serializable {
     /**
      * @return the centre of the cell in horizontal space
      */

@@ -28,6 +28,8 @@
 
 package uk.ac.rdg.resc.edal.grid;
 
+import java.io.Serializable;
+
 /**
  * <p>
  * A one-dimensional axis of a Grid, whose coordinate values are regularly
@@ -36,7 +38,7 @@ package uk.ac.rdg.resc.edal.grid;
  * 
  * @author Jon Blower
  */
-public interface RegularAxis extends ReferenceableAxis<Double> {
+public interface RegularAxis extends ReferenceableAxis<Double>, Serializable {
     /**
      * Gets the spacing between coordinate values, might be negative.
      */

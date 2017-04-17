@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2013 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -30,6 +30,7 @@ package uk.ac.rdg.resc.edal.dataset;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -76,12 +77,12 @@ import uk.ac.rdg.resc.edal.util.ValuesArray1D;
 /**
  * A partial implementation of a {@link Dataset} based on a 4D grid, using a
  * {@link GridDataSource} and a {@link DataReadingStrategy}.
- * 
+ *
  * @author Guy Griffiths
  * @author Jon Blower
  */
 public abstract class GriddedDataset extends
-        DiscreteLayeredDataset<GridDataSource, GridVariableMetadata> {
+        DiscreteLayeredDataset<GridDataSource, GridVariableMetadata> implements Serializable {
     private static final Logger log = LoggerFactory.getLogger(GriddedDataset.class);
     private static final long serialVersionUID = 1L;
 
@@ -185,7 +186,7 @@ public abstract class GriddedDataset extends
      * Extracts a 4d subset of data from the dataset. All variables must share
      * the same underlying grid, which must be rectilinear and CRS:84/EPSG:4326.
      * Whilst limiting scope, this is useful in a large number of situations.
-     * 
+     *
      * @param variables
      *            The variable IDs to extract into a feature
      * @param hBox
@@ -237,7 +238,7 @@ public abstract class GriddedDataset extends
             int maxZ = -1;
             int minT = -1;
             int maxT = -1;
-            
+
             if(variables == null) {
                 variables = getVariableIds();
             }
@@ -286,7 +287,7 @@ public abstract class GriddedDataset extends
                 if (outputDomain == null) {
                     /*
                      * We only need to set the min/max vars once.
-                     * 
+                     *
                      * At the same time, we construct the output domain
                      */
                     ReferenceableAxis<Double> xAxis = grid.getXAxis();
@@ -341,7 +342,7 @@ public abstract class GriddedDataset extends
                     if (tExtent != null) {
                         minT = tAxis.findIndexOf(tExtent.getLow());
                         if(minT == -1) {
-                            minT = 0; 
+                            minT = 0;
                         }
                         maxT = tAxis.findIndexOf(tExtent.getHigh());
                         if(maxT == -1) {
@@ -401,7 +402,7 @@ public abstract class GriddedDataset extends
                     }
                     outputDomain = new SimpleGridDomain(outputGrid, outputZAxis, outputTAxis);
                 }
-                
+
                 /*
                  * Remove trailing commas, and finalise the name/description
                  */
@@ -449,7 +450,7 @@ public abstract class GriddedDataset extends
 
     /**
      * Reads entire 4D data from a variable.
-     * 
+     *
      * @param varId
      *            The ID of the variable to read
      * @param gridDataSource

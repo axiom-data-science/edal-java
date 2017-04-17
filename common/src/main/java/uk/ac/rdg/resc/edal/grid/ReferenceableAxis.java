@@ -28,6 +28,7 @@
 
 package uk.ac.rdg.resc.edal.grid;
 
+import java.io.Serializable;
 import java.util.List;
 
 import uk.ac.rdg.resc.edal.domain.DiscreteDomain;
@@ -51,7 +52,7 @@ import uk.ac.rdg.resc.edal.domain.Extent;
  * @author Jon Blower
  * @author Guy Griffiths
  */
-public interface ReferenceableAxis<P> extends DiscreteDomain<P, Extent<P>> {
+public interface ReferenceableAxis<P> extends DiscreteDomain<P, Extent<P>>, Serializable {
     /**
      * @return The name of the axis.
      */

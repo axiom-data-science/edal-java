@@ -30,12 +30,14 @@ package uk.ac.rdg.resc.edal.grid;
 
 import uk.ac.rdg.resc.edal.util.GridCoordinates2D;
 
+import java.io.Serializable;
+
 /**
  * A cell in a {@link HorizontalGrid}.
  * 
  * @author Jon Blower
  */
-public interface GridCell2D extends HorizontalCell {
+public interface GridCell2D extends HorizontalCell, Serializable {
 
     /**
      * @return the coordinates within the parent {@link HorizontalGrid}

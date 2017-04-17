@@ -33,12 +33,14 @@ import org.joda.time.DateTime;
 
 import uk.ac.rdg.resc.edal.domain.TemporalDomain;
 
+import java.io.Serializable;
+
 /**
  * A time axis.
  * 
  * @author Jon Blower
  */
-public interface TimeAxis extends ReferenceableAxis<DateTime>, TemporalDomain {
+public interface TimeAxis extends ReferenceableAxis<DateTime>, TemporalDomain, Serializable {
 
     /**
      * Return the {@link Chronology} used in this time axis

@@ -628,7 +628,7 @@ public class DatasetConfig {
         /** Ready for use */
         READY,
 
-        /** Dataset is ready but is internally sychronizing its metadata */
+        /** Dataset is ready but is internally synchronizing its metadata */
         UPDATING,
 
         /** An error occurred when loading the dataset. */
