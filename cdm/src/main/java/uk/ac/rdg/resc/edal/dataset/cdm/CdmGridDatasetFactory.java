@@ -1453,7 +1453,7 @@ public final class CdmGridDatasetFactory extends CdmDatasetFactory implements Se
         }
     }
 
-    private static final class CdmUgridDataset extends HorizontalMesh4dDataset implements Serializable {
+    private final class CdmUgridDataset extends HorizontalMesh4dDataset implements Serializable {
         private final String location;
         private final Map<String, int[]> varId2hztIndices;
 

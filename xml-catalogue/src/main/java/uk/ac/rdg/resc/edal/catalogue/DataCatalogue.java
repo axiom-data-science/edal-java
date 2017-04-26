@@ -93,13 +93,8 @@ import uk.ac.rdg.resc.edal.metadata.VariableMetadata;
 public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureCatalogue {
     private static final Logger log = LoggerFactory.getLogger(DataCatalogue.class);
 
-    // Ehcache related
-    protected static CacheManager cacheManager;
-    private static MBeanServer mBeanServer;
     private static final String WMS_CACHE_CONFIG = "ehcache.config";
     private static final String CACHE_MANAGER = "EDAL-CacheManager";
-
-    // featureCache
     private static final String FEATURE_CACHE = "featureCache";
     private static final int FC_SIZE = 512;
     private static final int FC_LIFETIME_SECONDS = 0;
@@ -107,12 +102,13 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
     final MemoryStoreEvictionPolicy FC_EVICTION_POLICY = MemoryStoreEvictionPolicy.LFU;
     private static final Strategy FC_PERSISTENCE_STRATEGY = Strategy.NONE;
     private static final TransactionalMode FC_TRANSACTIONAL_MODE = TransactionalMode.OFF;
+
+    protected static CacheManager cacheManager;
     private Cache featureCache = null;
     private static MBeanServer mBeanServer;
     private static ObjectName cacheManagerObjectName;
     private boolean featureCacheEnabled = true;
 
-    // datasetCache
     private static final String DS_CACHE = "datasetCache";
     private static final int DS_SIZE = 512;
     private static final int DS_LIFETIME_SECONDS = 0;
@@ -329,50 +325,6 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
                 config.setTimeToLiveSeconds(configLifetimeSeconds);
                 config.setMaxBytesLocalHeap((long) configCacheSizeMB * 1024 * 1024);
             } else {
-                /*-
-                 * Precedence:
-                 * - Admin config
-                 * - XML file "ehcache.config"
-                 * - Default values
-                 */
-
-                /*
-                 * Default values
-                 */
-                cacheSizeMB = CACHE_SIZE;
-                lifetimeSeconds = LIFETIME_SECONDS;
-                memoryStoreEviction = EVICTION_POLICY;
-                persistenceStrategy = PERSISTENCE_STRATEGY;
-                transactionalMode = TRANSACTIONAL_MODE;
-
-                /*
-                 * XML config
-                 */
-                String ehcache_file = System.getProperty("ehcache.config");
-                if (ehcache_file != null && !ehcache_file.isEmpty()) {
-                    Cache tmpfeatureCache = cacheManager.getCache(CACHE_NAME);
-                    cacheSizeMB = tmpfeatureCache.getCacheConfiguration().getMaxBytesLocalHeap()
-                            / (1024 * 1024);
-                    lifetimeSeconds = tmpfeatureCache.getCacheConfiguration()
-                            .getTimeToLiveSeconds();
-                    memoryStoreEviction = tmpfeatureCache.getCacheConfiguration()
-                            .getMemoryStoreEvictionPolicy();
-                    persistenceStrategy = tmpfeatureCache.getCacheConfiguration()
-                            .getPersistenceConfiguration().getStrategy();
-                    transactionalMode = tmpfeatureCache.getCacheConfiguration()
-                            .getTransactionalMode();
-                }
-
-                /*
-                 * Admin
-                 */
-                if (cacheConfig.getInMemorySizeMB() != 0) {
-                    cacheSizeMB = configCacheSizeMB;
-                }
-                if (cacheConfig.getElementLifetimeMinutes() != 0) {
-                    lifetimeSeconds = configLifetimeSeconds;
-                }
-
                 /*
                  * - Precedence:
                  *  - Admin config
@@ -380,7 +332,9 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
                  *  - Default values
                  */
 
-                // XML config
+                /*
+                 * XML config
+                 */
                 String ehcache_file = System.getProperty("ehcache.config");
                 if (ehcache_file != null && !ehcache_file.isEmpty()) {
                     CacheManager tmpCacheManager = CacheManager.create(System.getProperty("ehcache.config"));
@@ -392,7 +346,9 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
                     transactionalMode = tmpCache.getCacheConfiguration().getTransactionalMode();
                 }
 
-                // Admin
+                /*
+                 * Admin
+                 */
                 if (cacheName.equals(FEATURE_CACHE)) {
                     if (cacheConfig.getFeatureCacheInMemorySizeMB() != 0) {
                         cacheSizeMB = configCacheSizeMB;
@@ -425,7 +381,7 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
             }
         } else {
             /*
-             * Free up memory if not using cache
+             * Remove existing cache to free up memory
              */
             cacheManager.removeCache(cacheName);
         }
