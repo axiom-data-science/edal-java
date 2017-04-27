@@ -54,7 +54,6 @@ import net.sf.ehcache.config.MemoryUnit;
 import net.sf.ehcache.config.PersistenceConfiguration;
 import net.sf.ehcache.config.PersistenceConfiguration.Strategy;
 import net.sf.ehcache.config.SizeOfPolicyConfiguration;
-import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 import net.sf.ehcache.management.ManagementService;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
