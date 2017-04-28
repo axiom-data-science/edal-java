@@ -356,6 +356,7 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
                     if (cacheConfig.getFeatureCacheElementLifetimeMinutes() != 0) {
                         lifetimeSeconds = configLifetimeSeconds;
                     }
+                    featureCacheEnabled = requestCacheEnabled;
                 } else {
                     if (cacheConfig.getDatasetCacheInMemorySizeMB() != 0) {
                         cacheSizeMB = configCacheSizeMB;
@@ -363,6 +364,7 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
                     if (cacheConfig.getDatasetCacheElementLifetimeMinutes() != 0) {
                         lifetimeSeconds = configLifetimeSeconds;
                     }
+                    datasetCacheEnabled = requestCacheEnabled;
                 }
 
                 /*
