@@ -44,7 +44,7 @@
                 </configuration>
             </plugin>
             <plugin>
-                <!-- On package, generate an image containing all of the 
+                <!-- On package, generate an image containing all of the
                     palettes for the documentation -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>

@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Enables auto-insertion of licence in new source code files. 
+        <!-- Enables auto-insertion of licence in new source code files.
             Could be extracted to a separate settings file, as per http://mevenide.codehaus.org/m2-site/mevenide2-netbeans/customizations.html -->
         <netbeans.hint.license>bsd-3clause</netbeans.hint.license>
         <gwtversion>2.7.0</gwtversion>
@@ -33,7 +33,7 @@
             full details).</comments>
         </license>
     </licenses>
-    <!-- groupId, developers and build sections are all inherited by child 
+    <!-- groupId, developers and build sections are all inherited by child
         modules -->
     <developers>
         <developer>
@@ -86,8 +86,8 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.10.3</version>
                 <configuration>
-                    <!-- Output the apidocs to the base directory. These 
-                        are ignored in .gitignore for most branches, but NOT in the gh-pages branch. 
+                    <!-- Output the apidocs to the base directory. These
+                        are ignored in .gitignore for most branches, but NOT in the gh-pages branch.
                         This makes documentation deployment very simple -->
                     <reportOutputDirectory>${project.basedir}</reportOutputDirectory>
                 </configuration>
@@ -204,9 +204,9 @@
                 <version>2.10.3</version>
                 <configuration>
                     <goal>javadoc:aggregate</goal>
-                    <!-- These links really belong in the child POMs but 
-                        if we put them there, they don't seem to get picked up when building the 
-                        javadoc for the aggregated project. Therefore if the versions of any of the 
+                    <!-- These links really belong in the child POMs but
+                        if we put them there, they don't seem to get picked up when building the
+                        javadoc for the aggregated project. Therefore if the versions of any of the
                         dependencies change these links will also have to be updated. -->
                     <links>
                         <link>http://java.sun.com/j2se/1.6.0/docs/api/</link>
@@ -267,10 +267,10 @@
     </modules>
     <repositories>
         <repository>
-            <!-- This allows us to include local maven repos in each module 
-                to contain dependencies which are not available through maven. We have only 
-                a single example, in the graphics module. We could define it in the graphics 
-                pom.xml, but that means that javadoc generation fails when we call it from 
+            <!-- This allows us to include local maven repos in each module
+                to contain dependencies which are not available through maven. We have only
+                a single example, in the graphics module. We could define it in the graphics
+                pom.xml, but that means that javadoc generation fails when we call it from
                 this level. -->
             <id>libs</id>
             <name>Non-maven dependencies</name>
