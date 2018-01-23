@@ -29,6 +29,7 @@
 package uk.ac.rdg.resc.edal.catalogue;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.Collection;
