@@ -64,7 +64,6 @@ The Ehcache cache can be distributed using Terracotta by specifying the paramete
 An example file is provided in /common/src/main/resources/ehcache.terracotta.xml.
 
 
-<<<<<<< HEAD
 ## Licence
 
 ```
@@ -107,7 +106,6 @@ Contributors:
 Authors
 -------
 The EDAL libraries are developed by the [Reading e-Science Centre](http://www.met.reading.ac.uk/resc/home/)
->>>>>>> Updates to Ehcache:
 
 - [@yosoyjay](https://github.com/yosoyjay)
 - [@kwilcox](https://github.com/kwilcox)
