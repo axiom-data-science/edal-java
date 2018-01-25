@@ -338,7 +338,7 @@ public class DataCatalogue implements DatasetCatalogue, DatasetStorage, FeatureC
                 String ehcache_file = System.getProperty("ehcache.config");
                 if (ehcache_file != null && !ehcache_file.isEmpty()) {
                     CacheManager tmpCacheManager = CacheManager.create(System.getProperty("ehcache.config"));
-                    Cache tmpCache = cacheManager.getCache(cacheName);
+                    Cache tmpCache = tmpCacheManager.getCache(cacheName);
                     cacheSizeMB = tmpCache.getCacheConfiguration().getMaxBytesLocalHeap() / (1024 * 1024);
                     lifetimeSeconds = tmpCache.getCacheConfiguration().getTimeToLiveSeconds();
                     memoryStoreEviction = tmpCache.getCacheConfiguration().getMemoryStoreEvictionPolicy();

@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (c) 2015 The University of Reading
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -13,7 +13,7 @@
  * 3. Neither the name of the University of Reading, nor the names of the
  *    authors or contributors may be used to endorse or promote products
  *    derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
  * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -74,7 +74,7 @@ public class NetcdfDatasetAggregator {
     }
 
     private static final Logger log = LoggerFactory.getLogger(NetcdfDatasetAggregator.class);
-    private static final int DATASET_CACHE_SIZE = 20;
+    private static final int DATASET_CACHE_SIZE = 50;
 
     private static Map<String, NcmlString> ncmlStringCache = new HashMap<>();
 
@@ -126,13 +126,13 @@ public class NetcdfDatasetAggregator {
      * Opens the NetCDF dataset at the given location, using the dataset cache.
      * Once acquired, this should be marked as finished with by calling
      * {@link NetcdfDatasetAggregator#releaseDataset(NetcdfDataset)}
-     * 
+     *
      * @param location
      *            The location of the data: a local NetCDF file, an NcML
      *            aggregation file or an OPeNDAP location, {@literal i.e.}
      *            anything that can be passed to
      *            NetcdfDataset.openDataset(location).
-     * 
+     *
      * @return a {@link NetcdfDataset} object for accessing the data at the
      *         given location. This should NEVER be CLOSED. Instead
      *         {@link NetcdfDatasetAggregator#releaseDataset(NetcdfDataset)}
@@ -140,7 +140,7 @@ public class NetcdfDatasetAggregator {
      *         allow the {@link NetcdfDatasetAggregator} to release it from the
      *         cache and close it if necessary. To re-obtain the same dataset,
      *         call this method again.
-     * 
+     *
      * @throws IOException
      *             if there was an error reading from the data source.
      */
@@ -153,7 +153,7 @@ public class NetcdfDatasetAggregator {
      * Opens the NetCDF dataset at the given location, using the dataset cache.
      * Once acquired, this should be marked as finished with by calling
      * {@link NetcdfDatasetAggregator#releaseDataset(NetcdfDataset)}
-     * 
+     *
      * @param location
      *            The location of the data: a local NetCDF file, an NcML
      *            aggregation file or an OPeNDAP location, {@literal i.e.}
@@ -161,7 +161,7 @@ public class NetcdfDatasetAggregator {
      *            NetcdfDataset.openDataset(location).
      * @param forceRefresh
      *            Set to <code>true</code> if cached data should be ignored
-     * 
+     *
      * @return a {@link NetcdfDataset} object for accessing the data at the
      *         given location. This should NEVER be CLOSED. Instead
      *         {@link NetcdfDatasetAggregator#releaseDataset(NetcdfDataset)}
@@ -169,11 +169,11 @@ public class NetcdfDatasetAggregator {
      *         allow the {@link NetcdfDatasetAggregator} to release it from the
      *         cache and close it if necessary. To re-obtain the same dataset,
      *         call this method again.
-     * 
+     *
      * @throws IOException
      *             if there was an error reading from the data source.
      */
-    // These warnings are because we keep files open and close them when they get removed from the cache      
+    // These warnings are because we keep files open and close them when they get removed from the cache
     @SuppressWarnings("resource")
     public static synchronized NetcdfDataset getDataset(final String location, boolean forceRefresh)
             throws IOException, EdalException {
@@ -220,7 +220,7 @@ public class NetcdfDatasetAggregator {
                      * We have multiple files in a glob expression. We write
                      * some NcML and use the NetCDF aggregation libs to parse
                      * this into an aggregated dataset.
-                     * 
+                     *
                      * If we have already generated the ncML on a previous call,
                      * just use that.
                      */
@@ -261,11 +261,11 @@ public class NetcdfDatasetAggregator {
 
                         /*
                          * We map time values to the variables in files.
-                         * 
+                         *
                          * The standard case is that we have multiple files, all
                          * with the same variables, but at different times. That
                          * will create an aggregation using "joinExisting".
-                         * 
+                         *
                          * However, we also support the case where we have
                          * multiple files per timestep, each containing a
                          * different set of variables. Then we want to do a
@@ -295,7 +295,7 @@ public class NetcdfDatasetAggregator {
                                 /*
                                  * Check whether all files have common time
                                  * units.
-                                 * 
+                                 *
                                  * If not, we need timeUnitsChange="true" in our
                                  * NcML
                                  */
@@ -337,7 +337,7 @@ public class NetcdfDatasetAggregator {
                                      * values will be reported - each aggregated
                                      * variable will pick one value (usually the
                                      * last one) and apply it to all of them.
-                                     * 
+                                     *
                                      * NOTE: This used to be the case for time
                                      * units, but it now works properly :D
                                      */
@@ -470,7 +470,7 @@ public class NetcdfDatasetAggregator {
                              * We have overlapping time axes. Treat this as a
                              * forecast model run collection, which it probably
                              * is.
-                             * 
+                             *
                              * Plus, even if it's not, this is probably the best
                              * way of handling the overlapping time axes (i.e.
                              * take later values in preference to earlier ones)
@@ -541,7 +541,7 @@ public class NetcdfDatasetAggregator {
      * removed from the cache in the event that the cache fills up. Reacquiring
      * the dataset with {@link NetcdfDatasetAggregator#getDataset(String)} will
      * mark it as active again.
-     * 
+     *
      * @param dataset
      *            The {@link NetcdfDataset} which is no longer (immediately)
      *            required.
@@ -575,16 +575,16 @@ public class NetcdfDatasetAggregator {
      * with time. It is desirable to use the dataset cache for NcML aggregations
      * because they can be time-consuming to assemble and we don't want to do
      * this every time a map is drawn.
-     * 
+     *
      * @param location
      *            The location of the data: a local NetCDF file, an NcML
      *            aggregation file or an OPeNDAP location, {@literal i.e.}
      *            anything that can be passed to
      *            NetcdfDataset.openDataset(location).
-     * 
+     *
      * @return a {@link NetcdfDataset} object for accessing the data at the
      *         given location.
-     * 
+     *
      * @throws IOException
      *             if there was an error reading from the data source.
      */
@@ -652,7 +652,7 @@ public class NetcdfDatasetAggregator {
 
     /**
      * Closes the given dataset, logging any exceptions at debug level
-     * 
+     *
      * @param nc
      *            The {@link NetcdfDataset} to close
      * @throws IOException

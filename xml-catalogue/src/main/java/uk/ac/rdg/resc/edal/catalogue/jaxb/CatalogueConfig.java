@@ -88,7 +88,7 @@ public class CatalogueConfig {
     private File configBackup;
 
     /** The scheduler that will handle the background (re)loading of datasets */
-    private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
+    private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(12);
     /**
      * Contains handles to background threads that can be used to cancel
      * reloading of datasets. Maps dataset IDs to Future objects
