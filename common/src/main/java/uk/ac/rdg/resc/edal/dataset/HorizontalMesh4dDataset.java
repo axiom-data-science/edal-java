@@ -98,14 +98,7 @@ public abstract class HorizontalMesh4dDataset extends
         throw new UnsupportedOperationException("Feature reading is not yet supported");
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 //    @SuppressWarnings("unchecked")
->>>>>>> Add serialization required for terracotta
-=======
-//    @SuppressWarnings("unchecked")
->>>>>>> Add serialization required for terracotta
     @Override
     protected Array2D<Number> extractHorizontalData(HorizontalMesh4dVariableMetadata metadata,
             int tIndex, int zIndex, HorizontalGrid targetGrid, HZTDataSource dataSource)
