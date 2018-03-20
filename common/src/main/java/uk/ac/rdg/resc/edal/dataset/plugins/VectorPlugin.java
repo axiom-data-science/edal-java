@@ -47,6 +47,8 @@ import uk.ac.rdg.resc.edal.metadata.VariableMetadata;
 import uk.ac.rdg.resc.edal.position.HorizontalPosition;
 import uk.ac.rdg.resc.edal.util.GISUtils;
 
+import java.io.Serializable;
+
 /**
  * A plugin to generate magnitude and direction fields from x- and y-components,
  * and to group them logically.
@@ -56,7 +58,8 @@ import uk.ac.rdg.resc.edal.util.GISUtils;
  *
  * @author Guy Griffiths
  */
-public class VectorPlugin extends VariablePlugin {
+public class VectorPlugin extends VariablePlugin implements Serializable{
+    private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(VectorPlugin.class);
 
     public final static String MAG_ROLE = "mag";

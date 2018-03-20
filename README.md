@@ -10,7 +10,6 @@
 
 The EDAL project comprises a set of libraries to deal with the manipulation and visualisation of environmental data.  They were originally created as part of [ncWMS](https://github.com/Reading-eScience-Centre/ncwms) but are standalone libraries which ncWMS uses.
 
-
 EDAL consists of a number of modules, each focused on a different task.  These modules are outlined below
 
 ## EDAL Modules
@@ -102,10 +101,6 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 The EDAL libraries are developed by the [Reading e-Science Centre](http://www.met.reading.ac.uk/resc/home/) and are maintained by [@guygriffiths](https://github.com/guygriffiths).
 
 Contributors:
-=======
-Authors
--------
-The EDAL libraries are developed by the [Reading e-Science Centre](http://www.met.reading.ac.uk/resc/home/)
 
 - [@yosoyjay](https://github.com/yosoyjay)
 - [@kwilcox](https://github.com/kwilcox)
