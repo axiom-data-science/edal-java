@@ -20,7 +20,6 @@ graphics/dependency-reduced-pom.xml
 *.iml
 
 .git
-docs/
 book.json
 README.md
 CHANGELOG
