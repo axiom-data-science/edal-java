@@ -5,5 +5,5 @@ MAINTAINER Jesse Lopez <jesse@axiomdatascience.com>
 WORKDIR /usr/src/app
 COPY . /usr/src/app/
 
-RUN mvn clean test install
+CMD ["mvn", "clean", "test", "install"]
 
